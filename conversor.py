@@ -29,7 +29,7 @@ def registrar_transaccion(producto, precio_convertido, moneda, ruta_log):
 
 # Ejemplo de uso
 if __name__ == "__main__":
-    tasas = cargar_tasas("../data/tasas.json")
+    tasas = cargar_tasas("data/tasas.json")
     precio_usd = 100.00
     eur = convertir(precio_usd, "EUR", tasas)
-    registrar_transaccion("Laptop", eur, "EUR", "../logs/historial.txt")
+    registrar_transaccion("Laptop", eur, "EUR", "logs/historial.txt")
