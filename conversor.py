@@ -28,15 +28,18 @@ def registrar_transaccion(producto, precio_convertido, moneda, ruta_log):
         archivo.write(f"{fecha} | {producto}: {precio_convertido:.2f} {moneda}\n")
 
 def actualizar_tasas(ruta):
-    # Simular API: Cambiar tasas aleatoriamente ±2%
+    """Actualiza las tasas simulando un cambio aleatorio y guarda con 2 decimales"""
     with open(ruta, "r+") as archivo:
         tasas = json.load(archivo)
         for moneda in tasas["USD"]:
-            tasas["USD"][moneda] *= 0.98 + (0.04 * random.random())
+            nueva_tasa = tasas["USD"][moneda] * (0.98 + (0.04 * random.random()))
+            tasas["USD"][moneda] = round(nueva_tasa, 2)  # Redondear a 2 decimales
         tasas["actualizacion"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        # Volver al inicio del archivo y sobrescribir el contenido
         archivo.seek(0)
         json.dump(tasas, archivo, indent=2)
-
+        archivo.truncate()  # Borra el resto del contenido anterior (por seguridad)
 
 # Ejemplo de uso
 if __name__ == "__main__":
